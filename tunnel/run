@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Stop if a command fails.
+set -e
+
+# BASH_SOURCE[0] is this script's path; dirname extracts its directory.
+# In a subshell, cd to that directory and capture its absolute path with pwd.
+# This leaves the caller's working directory unchanged and works from any cwd.
+
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Replace Bash with Deno, allowing network access, file reads, and cloudflared.
+# Use the script directory to locate tunnel.js and forward all arguments intact.
+
+exec deno run --allow-net --allow-read --allow-run=cloudflared \
+  "$here/tunnel.js" "$@"

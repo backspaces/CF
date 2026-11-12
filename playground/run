@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# Locate playground.js even when this launcher is called from another folder.
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec deno run --allow-read --allow-write --allow-run=deno \
+  --allow-env=CLOUDFLARE_ACCOUNT_ID --allow-net=api.cloudflare.com \
+  "$here/playground.js" "$@"
